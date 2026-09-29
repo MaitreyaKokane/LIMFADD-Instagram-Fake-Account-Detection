@@ -17,8 +17,6 @@ As fake accounts and automated bots become more sophisticated, simple binary cla
 3. [Key Findings & Results](#-key-findings--results)
 4. [Tech Stack](#-tech-stack)
 5. [Repository Structure](#-repository-structure)
-6. [How to Run It](#-how-to-run-it)
-7. [Future Work](#-future-work)
 
 ---
 
