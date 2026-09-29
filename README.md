@@ -1,82 +1,82 @@
-LLM-Enabled Instagram Fake Account Detection (Bot / Scam / Spam)
+# 🕵️‍♂️ Multi-Class Profile Detection: Bot, Real, Scam, and Spam
 
-An end-to-end multi-class classification pipeline that combines semantic embeddings from Instagram bios with structured profile metadata to detect and categorize accounts into Bot, Scam, and Spam.
-The project focuses on strong ML fundamentals: clean preprocessing, reproducible evaluation, and robust model selection with ensemble learning.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-Latest-orange.svg)
+![XGBoost](https://img.shields.io/badge/XGBoost-Optimized-green.svg)
+![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626.svg)
 
-Project Overview
+Welcome to my machine learning project focused on social engineering threat detection. The primary objective here is to accurately classify user profiles into four distinct categories: **Bot**, **Real**, **Scam**, and **Spam**. 
 
-Social media profiles contain both:
+As fake accounts and automated bots become more sophisticated, simple binary classification (Real vs. Fake) isn't always enough. I built this pipeline to see how different classification algorithms handle a more nuanced, multi-class dataset, and to figure out if complex model aggregation (ensembling) actually justifies its computational cost in this scenario.
 
-Unstructured signals (bio text, self-description patterns)
+---
 
-Structured signals (followers/following counts, post stats, account attributes)
+## 📑 Table of Contents
+1. [About the Dataset](#-about-the-dataset)
+2. [Project Workflow & Methodology](#-project-workflow--methodology)
+3. [Key Findings & Results](#-key-findings--results)
+4. [Tech Stack](#-tech-stack)
+5. [Repository Structure](#-repository-structure)
+6. [How to Run It](#-how-to-run-it)
+7. [Future Work](#-future-work)
 
-This project fuses both signal types:
+---
 
-Extracts bio embeddings using an LLM/embedding model
+## 📊 About the Dataset
 
-Engineers/cleans structured features
+The model is trained on a dataset of **15,000 generated user profiles**. 
 
-Trains and evaluates multiple ML models
+*   **Target Classes:** 4 (`Bot`, `Real`, `Scam`, `Spam`)
+*   **Feature Focus:** The dataset includes various behavioral and structural metrics typical of social media accounts (e.g., posting frequency, account age, follower-to-following ratios, keyword flags). 
+*   *Note: Due to file size limits, the raw dataset might not be included in this repo, but the preprocessing scripts and feature definitions are fully documented in the notebooks.*
 
-Selects a best-performing ensemble (stacking)
+---
 
-Key Features
+## 🧠 Project Workflow & Methodology
 
-Feature fusion: structured metadata + high-dimensional bio embeddings
+I ran the data through a complete machine learning lifecycle, comparing baseline performance with highly optimized versions. Here is the step-by-step breakdown:
 
-Preprocessing pipeline:
+1.  **Data Preprocessing:** Handled missing values, encoded categorical variables, and scaled numerical features to ensure algorithms like Logistic Regression weren't biased by feature magnitude.
+2.  **Baseline Training:** Tested models out-of-the-box to establish a performance floor. I used **Random Forest**, **XGBoost**, and **Logistic Regression**.
+3.  **Feature Selection:** Implemented **Recursive Feature Elimination (RFE)**. This was crucial for stripping out noisy, irrelevant features and identifying the core metrics that actually dictate an account's authenticity.
+4.  **Hyperparameter Tuning:** Applied Grid/Random Search cross-validation to fine-tune the tree depths, learning rates, and estimators of the best-performing models to squeeze out maximum accuracy.
+5.  **Ensemble Methods:** Combined the models using both **Hard Voting** (majority rules) and **Soft Voting** (probability-based) classifiers to test if a "wisdom of the crowd" approach could beat individual algorithms.
 
-missing value handling (mean/median imputation)
+---
 
-categorical encoding
+## 🏆 Key Findings & Results
 
-z-score scaling for numeric features
+One of the biggest takeaways from this experiment was that **more complex doesn't always mean better.** 
 
-Model benchmarking:
+Initially, I hypothesized that the ensemble methods would easily sweep the board by compensating for individual model weaknesses. However, the data proved otherwise. Highly optimized, single tree-based models ended up outperforming the aggregated voting mechanisms on the test set.
 
-Logistic Regression
+| Model / Approach | 5-Fold CV Score | Test Set Accuracy |
+| :--- | :---: | :---: |
+| **XGBoost (Tuned)** | 0.9821 | **96.87%** |
+| **Random Forest (Tuned)** | 0.9785 | **95.34%** |
+| **Soft Voting Ensemble** | 0.9510 | 94.78% |
+| **Hard Voting Ensemble** | 0.9388 | 92.24% |
+| **Logistic Regression (Tuned)** | 0.8512 | 81.63% |
 
-SVM (RBF)
+**Conclusion:** For this specific feature set, a highly optimized gradient boosting approach (XGBoost) is vastly more effective and resource-efficient than aggregating multiple models together. 
 
-Random Forest
+---
 
-XGBoost
+## 🛠 Tech Stack
 
-Ensembles:
+*   **Language:** Python
+*   **Data Manipulation:** `pandas`, `numpy`
+*   **Machine Learning:** `scikit-learn` (for base models, metrics, RFE, Ensembles)
+*   **Advanced Boosting:** `xgboost`
+*   **Environment:** Jupyter Notebook / Google Colab
 
-hard voting
+---
 
-soft voting
+## 📂 Repository Structure
 
-stacking (best-performing)
-
-Reproducible evaluation:
-
-stratified train/test split (80/20)
-
-stratified k-fold cross-validation
-
-metrics: Accuracy + ROC-AUC (one-vs-rest)
-
-Results (Summary)
-
-Best model: Tuned stacking ensemble
-
-Test Accuracy: 98.41%
-
-Strong ROC-AUC for top models (AUC > 0.98)
-
-Note: Results depend on dataset composition and labeling quality. Always validate on a holdout set and check class-wise performance.
-
-Tech Stack
-
-Python
-
-scikit-learn
-
-XGBoost
-
-Embedding model (LLM-based or sentence embedding model)
-
-pandas, numpy
+├── Dataset
+|      ├──LIMFADD.csv
+|
+├── LIMFADD_Account_Classification_and_Clustering.ipynb
+├── README.md
+└── Report.pdf
