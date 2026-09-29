@@ -74,9 +74,4 @@ Initially, I hypothesized that the ensemble methods would easily sweep the board
 
 ## 📂 Repository Structure
 
-├── Dataset
-|      ├──LIMFADD.csv
-|
-├── LIMFADD_Account_Classification_and_Clustering.ipynb
-├── README.md
-└── Report.pdf
+<img width="454" height="132" alt="image" src="https://github.com/user-attachments/assets/ceb51c5f-f4a5-41e6-a89f-b1a428558169" />
